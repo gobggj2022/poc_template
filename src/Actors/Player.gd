@@ -16,17 +16,25 @@ onready var sprite = $Sprite
 onready var sound_jump = $Jump
 onready var gun = sprite.get_node(@"Gun")
 
+var count = 0
+#Our dictionary we store values too
+var save_data = {"0": ["nothing",Vector2(0,0),false]}
 
-#func _ready():
-#	# Static types are necessary here to avoid warnings.
-#	var camera: Camera2D = $Camera
-#	if action_suffix == "_p1":
-#		camera.custom_viewport = $"../.."
-#	elif action_suffix == "_p2":
-#		var viewport: Viewport = $"../../../../ViewportContainer2/Viewport"
-#		viewport.world_2d = ($"../.." as Viewport).world_2d
-#		camera.custom_viewport = viewport
+func _on_Game_on_door_passed():
+	saveRecord()
 
+func do_record():
+	count += 1
+	save_data[String(count)] = [animation_player.current_animation,global_position, sprite.flip_h]
+		
+
+func saveRecord():
+	var f := File.new()
+	f.open("res://record.json", File.WRITE)
+	prints("Saving to", f.get_path_absolute())
+	f.store_string(JSON.print(save_data))
+	print(JSON.print(save_data))
+	f.close()
 
 # Physics process is a built-in loop in Godot.
 # If you define _physics_process on a node, Godot will call it every frame.
@@ -47,6 +55,8 @@ onready var gun = sprite.get_node(@"Gun")
 # - If you split the character into a state machine or more advanced pattern,
 #   you can easily move individual functions.
 func _physics_process(_delta):
+	do_record()
+
 	# Play jump sound
 	if Input.is_action_just_pressed("jump" + action_suffix) and is_on_floor():
 		sound_jump.play()
@@ -128,3 +138,4 @@ func get_new_animation(is_shooting = false):
 	if is_shooting:
 		animation_new += "_weapon"
 	return animation_new
+

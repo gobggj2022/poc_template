@@ -11,6 +11,10 @@ extends Area2D
 # Click the AnimationPlayer node to see the animation timeline.
 signal door_entered()
 
+var is_player_passed = false
+
 func _on_Door_body_entered(body):
-	self.emit_signal('door_entered')
+	if body is Player && !is_player_passed:
+		is_player_passed = true
+		self.emit_signal('door_entered')
 

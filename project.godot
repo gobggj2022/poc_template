@@ -19,7 +19,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/Objects/Bullet.gd"
 }, {
-"base": "Node2D",
+"base": "Actor",
 "class": "Clone",
 "language": "GDScript",
 "path": "res://src/Actors/Clone.gd"
@@ -95,6 +95,10 @@ stretch/mode="2d"
 [gdnative]
 
 singletons=[  ]
+
+[global]
+
+external=false
 
 [image_loader]
 

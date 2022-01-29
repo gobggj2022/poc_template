@@ -18,6 +18,10 @@ func _ready():
 
 
 func _on_door_entered():
+	call_deferred("addClone")
+	get_parent().emit_signal("on_door_passed")
+
+func addClone():
 	var clone = cloneScn.instance()
 	add_child(clone)
 	clone.set_position(initialPlayerPosition)

@@ -7,6 +7,8 @@ extends Node
 # that is to say, another node or script should not access them.
 onready var _pause_menu = $InterfaceLayer/PauseMenu
 
+signal on_door_passed()
+
 
 func _init():
 	OS.min_window_size = OS.window_size
